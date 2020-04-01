@@ -377,6 +377,12 @@ const createTaskTemplate = () => {
   );
 };
 
+const createLoadMoreButtonTemplate = () => {
+  return (
+    `<button class="load-more" type="button">load more</button>`
+  );
+};
+
 
 renderComponent(siteHeaderElement, createSiteMenuTemplate());
 renderComponent(siteMainElement, createFilterTemplate());
@@ -387,3 +393,4 @@ const tasksContainerElement = boardElement.querySelector(`.board__tasks`);
 
 renderComponent(tasksContainerElement, createTaskEditTemplate());
 renderComponentNTimes(tasksContainerElement, createTaskTemplate(), TASK_COUNT);
+renderComponent(boardElement, createLoadMoreButtonTemplate());
