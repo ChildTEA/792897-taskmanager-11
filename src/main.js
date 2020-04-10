@@ -8,7 +8,7 @@ import {createBoardTemplate} from "./components/board.js";
 import {createSortingTemplate} from "./components/sorting.js";
 import {createLoadMoreButtonTemplate} from "./components/load-more-button.js";
 
-const TASK_COUNT = 22;
+const TASK_COUNT = 20;
 const SHOWING_TASKS_COUNT_ON_START = 8;
 const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
 
