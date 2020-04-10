@@ -1,5 +1,6 @@
 
 import {createSiteMenuTemplate} from "./components/site-menu.js";
+import {generateFilters} from "./mock/filter.js";
 import {createFilterTemplate} from "./components/filter.js";
 import {createTaskTemplate} from "./components/task.js";
 import {createTaskEditTemplate} from "./components/task-editor.js";
@@ -24,7 +25,10 @@ const renderComponentNTimes = (container, template, count = 1, place = `beforeen
 
 
 renderComponent(siteHeaderElement, createSiteMenuTemplate());
-renderComponent(siteMainElement, createFilterTemplate());
+
+const filters = generateFilters();
+
+renderComponent(siteMainElement, createFilterTemplate(filters));
 renderComponent(siteMainElement, createBoardTemplate());
 
 const boardElement = siteMainElement.querySelector(`.board.container`);
