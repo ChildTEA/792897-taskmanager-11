@@ -12,6 +12,8 @@ const TASK_COUNT = 20;
 const SHOWING_TASKS_COUNT_ON_START = 8;
 const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
 
+const tasks = generateTasks(TASK_COUNT);
+
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
 
@@ -21,7 +23,7 @@ const renderComponent = (container, template, place = `beforeend`) => {
 
 renderComponent(siteHeaderElement, createSiteMenuTemplate());
 
-const filters = generateFilters();
+const filters = generateFilters(tasks);
 
 renderComponent(siteMainElement, createFilterTemplate(filters));
 renderComponent(siteMainElement, createBoardTemplate());
@@ -30,8 +32,6 @@ const boardElement = siteMainElement.querySelector(`.board.container`);
 const tasksContainerElement = boardElement.querySelector(`.board__tasks`);
 
 renderComponent(boardElement, createSortingTemplate(), `afterbegin`);
-
-const tasks = generateTasks(TASK_COUNT);
 
 renderComponent(tasksContainerElement, createTaskEditTemplate(tasks[0]));
 
