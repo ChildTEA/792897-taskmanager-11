@@ -100,14 +100,3 @@ renderComponent(siteMainElement, new FilterComponent(filters).getElement());
 const boardComponent = new BoardComponent();
 renderComponent(siteMainElement, boardComponent.getElement());
 renderBoard(boardComponent, tasks);
-
-
-/*
-Вопрос:
-Почему в renderComponent используется prepend и append, если они считаются экспериментальными и со слабой поддержкой?
-Почему нельзя использовать appendChild и т.п.
-
-Вроде бы, первое позволяет работать с набором элементов, но на сколько это актуально?
-https://developer.mozilla.org/ru/docs/Web/API/ParentNode
-https://developer.mozilla.org/ru/docs/Web/API/Node
-*/
