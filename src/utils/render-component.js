@@ -10,15 +10,32 @@ const createElement = (template) => {
   return newElement.firstChild;
 };
 
-const render = (container, element, place = positionToRenderPosition.BEFOREEND) => {
+const render = (container, component, place = positionToRenderPosition.BEFOREEND) => {
   switch (place) {
     case positionToRenderPosition.AFTERBEGIN:
-      container.prepend(element);
+      container.prepend(component.getElement());
       break;
     case positionToRenderPosition.BEFOREEND:
-      container.append(element);
+      container.append(component.getElement());
       break;
   }
 };
 
-export {positionToRenderPosition, createElement, render};
+const replace = (newComponent, oldComponent) => {
+  const parentElement = oldComponent.getElement().parentElement;
+  const newElement = newComponent.getElement();
+  const oldElement = oldComponent.getElement();
+
+  const isExistElements = Boolean(parentElement && newElement && oldElement);
+
+  if (isExistElements) {
+    parentElement.replaceChild(newElement, oldElement);
+  }
+};
+
+const remove = (component) => {
+  component.getElement().remove();
+  component.removeElement();
+};
+
+export {positionToRenderPosition, createElement, render, replace, remove};
