@@ -37,15 +37,13 @@ const renderTask = (taskListElement, task) => {
   };
 
   const taskComponent = new TaskComponent(task);
-  const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
-  editButton.addEventListener(`click`, () => {
+  taskComponent.setEditButtonClickHendler(() => {
     replaceTaskToEdit();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
   const taskEditComponent = new TaskEditComponent(task);
-  const editForm = taskEditComponent.getElement().querySelector(`form`);
-  editForm.addEventListener(`submit`, (evt) => {
+  taskEditComponent.setSubmitHendler((evt) => {
     evt.preventDefault();
 
     replaceEditToTask();

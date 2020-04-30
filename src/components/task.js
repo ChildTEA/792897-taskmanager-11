@@ -72,4 +72,8 @@ export default class Task extends AbstractComponent {
   getTemplate() {
     return createTaskTemplate(this._task);
   }
+
+  setEditButtonClickHendler(hendler) {
+    this.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, hendler);
+  }
 }
