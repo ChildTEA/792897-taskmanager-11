@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
 };
@@ -8,16 +10,13 @@ const getRandomArrayItem = (array) => {
   return array[randomIndex];
 };
 
-const castTimeFormat = (value) => {
-  return value < 10 ? `0${value}` : String(value);
+const formatDate = (date) => {
+  return moment(date).format(`DD MMMM`);
 };
 
 const formatTime = (date) => {
-  const hours = castTimeFormat(date.getHours() % 12);
-  const minutes = castTimeFormat(date.getMinutes());
-
-  return `${hours}:${minutes}`;
+  return moment(date).format(`hh:mm`);
 };
 
 
-export {getRandomArrayItem, getRandomIntegerNumber, formatTime};
+export {getRandomArrayItem, getRandomIntegerNumber, formatDate, formatTime};
