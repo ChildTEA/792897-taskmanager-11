@@ -111,15 +111,12 @@ export default class BoardController {
 
   _onLoadMoreButtonClick() {
     const prevTasksCount = this._showingTasksCount;
-    const tasksListElement = this._tasksComponent.getElement();
 
     this._showingTasksCount = this._showingTasksCount + SHOWING_TASKS_COUNT_BY_BUTTON;
 
     const tasksToRender = this._tasksModel.getTasks().slice(prevTasksCount, this._showingTasksCount);
 
-    const newTasks = renderTasks(tasksListElement, tasksToRender, this._onDataChange, this._onViewChange);
-
-    this._showedTaskControllers = this._showedTaskControllers.concat(newTasks);
+    this._renderTasks(tasksToRender);
 
     if (this._showingTasksCount >= this._tasksModel.getTasks().length) {
       remove(this._loadMoreButtonComponent);
@@ -130,13 +127,9 @@ export default class BoardController {
     this._showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
 
     const tasksToRender = this._tasksModel.getTasks(sortType).slice(0, this._showingTasksCount);
-    const tasksListElement = this._tasksComponent.getElement();
 
-    tasksListElement.innerHTML = ``;
-
-    const newTasks = renderTasks(tasksListElement, tasksToRender, this._onDataChange, this._onViewChange);
-    this._showedTaskControllers = newTasks;
-
+    this._removeTasks();
+    this._renderTasks(tasksToRender);
     this._renderLoadMoreButton();
   }
 
