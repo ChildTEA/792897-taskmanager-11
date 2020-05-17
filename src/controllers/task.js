@@ -1,6 +1,6 @@
 import TaskComponent from '../components/task.js';
 import TaskEditComponent from '../components/task-editor.js';
-import {render, replace} from '../utils/render-component.js';
+import {render, replace, remove} from '../utils/render-component.js';
 
 const Mode = {
   DEFAULT: `default`,
@@ -18,6 +18,12 @@ export default class TaskController {
     this._taskEditComponent = null;
 
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
+  }
+
+  destroy() {
+    remove(this._taskEditComponent);
+    remove(this._taskComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
   render(task) {
