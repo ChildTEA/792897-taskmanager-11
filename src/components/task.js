@@ -1,6 +1,6 @@
 import {formatTime, formatDate} from "../utils/common.js";
 import AbstractComponent from '../components/abstract-component';
-import {isOverdueDate} from "../utils/common.js";
+import {isOverdueDate} from '../utils/common.js';
 
 const createButtonMarkup = (name, isActive = true) => {
   return (

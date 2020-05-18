@@ -13,6 +13,11 @@ export default class Tasks {
     this._filterChangeHandlers = [];
   }
 
+  addTask(task) {
+    this._tasks = [task, ...this._tasks];
+    this._callHandlers(this._dataChangeHandlers);
+  }
+
   getTasks(sortType = this._sortType) {
     if (sortType !== this._sortType || this._sortedTasks.length === 0) {
       this._sortedTasks = [];
@@ -37,6 +42,20 @@ export default class Tasks {
 
   getTasksAll() {
     return this._tasks;
+  }
+
+  removeTask(id) {
+    const index = this._tasks.findIndex((it) => it.id === id);
+
+    if (index === -1) {
+      return false;
+    }
+
+    this._tasks = [].concat(this._tasks.slice(0, index), this._tasks.slice(index + 1));
+
+    this._callHandlers(this._dataChangeHandlers);
+
+    return true;
   }
 
   setFilter(filterType) {
