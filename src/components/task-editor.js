@@ -2,6 +2,8 @@ import {COLORS, DAYS} from '../const.js';
 import {formatTime, formatDate, isRepeating, isOverdueDate} from '../utils/common.js';
 import AbstractSmartComponent from '../components/abstract-smart-component.js';
 import flatpickr from 'flatpickr';
+import {encode} from "he";
+
 import 'flatpickr/dist/flatpickr.min.css';
 
 
@@ -49,7 +51,7 @@ const createColorsMarkup = (colors, currentColor) => {
           ${currentColor === color ? `checked` : ``}
         />
         <label
-          for="color-${color}--${index}"
+          for="color-${color}-${index}"
           class="card__color card__color--${color}"
           >${color}</label
         >`
@@ -59,11 +61,10 @@ const createColorsMarkup = (colors, currentColor) => {
 };
 
 const createTaskEditTemplate = (task, options = {}) => {
-  // const {description, dueDate, color} = task;
-  const {dueDate, color} = task;
-  // const {isDateShowing, isRepeatingTask, activeRepeatingDays} = options;
-  const {isDateShowing, isRepeatingTask, activeRepeatingDays, currentDescription: description} = options;
+  const {dueDate} = task;
+  const {isDateShowing, isRepeatingTask, activeColor: color, activeRepeatingDays, currentDescription} = options;
 
+  const description = encode(currentDescription);
   const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
   const isBlockSaveButton = (isDateShowing && isRepeatingTask) ||
     (isRepeatingTask && !isRepeating(activeRepeatingDays)) ||
@@ -173,6 +174,7 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._isDateShowing = !!task.dueDate;
     this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
+    this._activeColor = task.color;
     this._currentDescription = task.description;
     this._deleteButtonClickHandler = null;
     this._flatpickr = null;
@@ -186,6 +188,7 @@ export default class TaskEdit extends AbstractSmartComponent {
     return createTaskEditTemplate(this._task, {
       isDateShowing: this._isDateShowing,
       isRepeatingTask: this._isRepeatingTask,
+      activeColor: this._activeColor,
       activeRepeatingDays: this._activeRepeatingDays,
       currentDescription: this._currentDescription,
     });
@@ -294,5 +297,15 @@ export default class TaskEdit extends AbstractSmartComponent {
         this.rerender();
       });
     }
+
+    element.querySelector(`.card__colors-wrap`)
+      .addEventListener(`change`, (evt) => {
+        if (evt.target.tagName !== `INPUT`) {
+          return;
+        }
+
+        this._activeColor = evt.target.value;
+        this.rerender();
+      });
   }
 }
