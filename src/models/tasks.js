@@ -19,7 +19,9 @@ export default class Tasks {
   }
 
   getTasks(sortType = this._sortType) {
-    if (sortType !== this._sortType || this._sortedTasks.length === 0) {
+    if (sortType !== this._sortType
+      || this._sortedTasks.length === 0
+      || this._sortedTasks.length !== this._tasks.length) {
       this._sortedTasks = [];
       this._sortType = sortType;
       const clonedTasks = this._tasks.slice();

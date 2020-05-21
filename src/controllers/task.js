@@ -33,7 +33,7 @@ export default class TaskController {
     this._onViewChange = onViewChange;
     this._mode = Mode.DEFAULT;
 
-    this._tasksComponent = null;
+    this._taskComponent = null;
     this._taskEditComponent = null;
 
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
