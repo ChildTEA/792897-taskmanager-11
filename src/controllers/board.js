@@ -73,6 +73,14 @@ export default class BoardController {
     this._renderLoadMoreButton();
   }
 
+  show() {
+    this._container.show();
+  }
+
+  hide() {
+    this._container.hide();
+  }
+
   _removeTasks() {
     this._showedTaskControllers.forEach((taskController) => taskController.destroy());
     this._showedTaskControllers = [];
