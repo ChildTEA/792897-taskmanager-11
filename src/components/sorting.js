@@ -21,6 +21,7 @@ export default class Sort extends AbstractComponent {
     super();
 
     this._currentSortType = SortType.DEFAULT;
+    this._sotrTypeChangeHandler = null;
   }
 
   getTemplate() {
@@ -29,6 +30,11 @@ export default class Sort extends AbstractComponent {
 
   getSortType() {
     return this._currentSortType;
+  }
+
+  resetSortType() {
+    this._currentSortType = SortType.DEFAULT;
+    this._sotrTypeChangeHandler(this._currentSortType);
   }
 
   setSortTypeChangeHandler(handler) {
@@ -46,6 +52,7 @@ export default class Sort extends AbstractComponent {
       }
 
       this._currentSortType = sortType;
+      this._sotrTypeChangeHandler = handler;
 
       handler(this._currentSortType);
     });

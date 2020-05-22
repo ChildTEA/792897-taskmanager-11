@@ -75,6 +75,7 @@ export default class BoardController {
 
   show() {
     this._container.show();
+    this._sortComponent.resetSortType();
   }
 
   hide() {
