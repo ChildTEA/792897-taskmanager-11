@@ -34,7 +34,10 @@ export default class Sort extends AbstractComponent {
 
   resetSortType() {
     this._currentSortType = SortType.DEFAULT;
-    this._sotrTypeChangeHandler(this._currentSortType);
+
+    if (this._sotrTypeChangeHandler) {
+      this._sotrTypeChangeHandler(this._currentSortType);
+    }
   }
 
   setSortTypeChangeHandler(handler) {

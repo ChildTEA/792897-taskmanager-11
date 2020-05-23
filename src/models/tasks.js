@@ -14,7 +14,7 @@ export default class Tasks {
   }
 
   addTask(task) {
-    this._tasks = [task, ...this._tasks];
+    this._tasks = [].concat(task, this._tasks);
     this._callHandlers(this._dataChangeHandlers);
   }
 
@@ -77,7 +77,7 @@ export default class Tasks {
       return false;
     }
 
-    this._tasks = [...this._tasks.slice(0, index), task, ...this._tasks.slice(index + 1)];
+    this._tasks = [].concat(this._tasks.slice(0, index), task, this._tasks.slice(index + 1));
 
     this._callHandlers(this._dataChangeHandlers);
 
