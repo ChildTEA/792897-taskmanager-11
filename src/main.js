@@ -14,6 +14,12 @@ const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
 
 const tasks = generateTasks(TASK_COUNT);
+const dateTo = new Date();
+const dateFrom = (() => {
+  const d = new Date(dateTo);
+  d.setDate(d.getDate() - 7);
+  return d;
+})();
 const tasksModel = new TasksModel();
 tasksModel.setTasks(tasks);
 
@@ -23,7 +29,7 @@ filterController.render();
 const boardComponent = new BoardComponent();
 const boardController = new BoardController(boardComponent, tasksModel);
 const siteMenuComponent = new SiteMenuComponent();
-const statisticsComponent = new StatisticsComponent();
+const statisticsComponent = new StatisticsComponent({tasks: tasksModel, dateFrom, dateTo});
 
 render(siteHeaderElement, siteMenuComponent);
 render(siteMainElement, boardComponent);
