@@ -1,6 +1,6 @@
 import AbstractComponent from '../components/abstract-component';
 
-export const MenuItem = {
+const MenuItem = {
   NEW_TASK: `control__new-task`,
   STATISTICS: `control__statistic`,
   TASKS: `control__task`,
@@ -64,3 +64,5 @@ export default class SiteMenu extends AbstractComponent {
     });
   }
 }
+
+export {MenuItem};

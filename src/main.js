@@ -1,15 +1,10 @@
-import StatisticsComponent from './components/statistics.js';
 import BoardComponent from './components/board.js';
 import BoardController from './controllers/board.js';
-import FilterComponent from './components/filter.js';
+import FilterController from "./controllers/filter.js";
 import SiteMenuComponent, {MenuItem} from './components/site-menu.js';
-<<<<<<< HEAD
-=======
 import StatisticsComponent from './components/statistics.js';
 import TasksModel from './models/tasks.js';
->>>>>>> c0e24fd... Feat: Реализовано переключение экранов.
 import {generateTasks} from './mock/task.js';
-import {generateFilters} from './mock/filter.js';
 import {render} from './utils/render-component.js';
 
 
@@ -17,32 +12,30 @@ const TASK_COUNT = 20;
 
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
-const siteMenuComponent = new SiteMenuComponent();
 
 const tasks = generateTasks(TASK_COUNT);
-const filters = generateFilters(tasks);
+const dateTo = new Date();
+const dateFrom = (() => {
+  const d = new Date(dateTo);
+  d.setDate(d.getDate() - 7);
+  return d;
+})();
+const tasksModel = new TasksModel();
+tasksModel.setTasks(tasks);
 
-
-render(siteHeaderElement, siteMenuComponent);
-render(siteMainElement, new FilterComponent(filters));
+const filterController = new FilterController(siteMainElement, tasksModel);
+filterController.render();
 
 const boardComponent = new BoardComponent();
-<<<<<<< HEAD
-const boardController = new BoardController(boardComponent);
-=======
 const boardController = new BoardController(boardComponent, tasksModel);
 const siteMenuComponent = new SiteMenuComponent();
->>>>>>> c0e24fd... Feat: Реализовано переключение экранов.
-const statisticsComponent = new StatisticsComponent();
+const statisticsComponent = new StatisticsComponent({tasks: tasksModel, dateFrom, dateTo});
 
+render(siteHeaderElement, siteMenuComponent);
 render(siteMainElement, boardComponent);
-<<<<<<< HEAD
-render(boardComponent.getElement(), statisticsComponent);
-=======
 render(siteMainElement, statisticsComponent);
 
 statisticsComponent.hide();
->>>>>>> c0e24fd... Feat: Реализовано переключение экранов.
 boardController.render(tasks);
 
 siteMenuComponent.setOnChange((menuItem) => {
