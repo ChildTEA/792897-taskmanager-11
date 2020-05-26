@@ -3,6 +3,7 @@ import BoardController from './controllers/board.js';
 import FilterController from "./controllers/filter.js";
 import SiteMenuComponent, {MenuItem} from './components/site-menu.js';
 import StatisticsComponent from './components/statistics.js';
+
 import TasksModel from './models/tasks.js';
 import {generateTasks} from './mock/task.js';
 import {render} from './utils/render-component.js';
@@ -30,6 +31,7 @@ const boardComponent = new BoardComponent();
 const boardController = new BoardController(boardComponent, tasksModel);
 const siteMenuComponent = new SiteMenuComponent();
 const statisticsComponent = new StatisticsComponent({tasks: tasksModel, dateFrom, dateTo});
+
 
 render(siteHeaderElement, siteMenuComponent);
 render(siteMainElement, boardComponent);
