@@ -19,24 +19,20 @@ export default class Tasks {
   }
 
   getTasks(sortType = this._sortType) {
-    if (sortType !== this._sortType
-      || this._sortedTasks.length === 0
-      || this._sortedTasks.length !== this._tasks.length) {
-      this._sortedTasks = [];
-      this._sortType = sortType;
-      const clonedTasks = this._tasks.slice();
+    this._sortedTasks = [];
+    this._sortType = sortType;
+    const clonedTasks = this._tasks.slice();
 
-      switch (sortType) {
-        case SortType.DATE_UP:
-          this._sortedTasks = clonedTasks.sort((a, b) => a.dueDate - b.dueDate);
-          break;
-        case SortType.DATE_DOWN:
-          this._sortedTasks = clonedTasks.sort((a, b) => b.dueDate - a.dueDate);
-          break;
-        case SortType.DEFAULT:
-          this._sortedTasks = clonedTasks;
-          break;
-      }
+    switch (sortType) {
+      case SortType.DATE_UP:
+        this._sortedTasks = clonedTasks.sort((a, b) => a.dueDate - b.dueDate);
+        break;
+      case SortType.DATE_DOWN:
+        this._sortedTasks = clonedTasks.sort((a, b) => b.dueDate - a.dueDate);
+        break;
+      case SortType.DEFAULT:
+        this._sortedTasks = clonedTasks;
+        break;
     }
 
     return getTasksByFilter(this._sortedTasks, this._activeFilterType);

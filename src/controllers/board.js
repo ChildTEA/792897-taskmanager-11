@@ -1,4 +1,5 @@
 import LoadMoreButtonComponent from '../components/load-more-button.js';
+import LoadingComponent from '../components/loading.js';
 import TaskController, {Mode as TaskControllerMode, EmptyTask} from './task.js';
 import TasksComponent from '../components/tasks.js';
 import NoTasksComponent from '../components/no-tasks.js';
@@ -22,7 +23,8 @@ const renderTasks = (taskListElement, tasks, onDataChange, onViewChange) => {
 
 
 export default class BoardController {
-  constructor(container, tasksModel) {
+  constructor(container, tasksModel, api) {
+    this._api = api;
     this._container = container;
     this._tasksModel = tasksModel;
 
@@ -33,6 +35,7 @@ export default class BoardController {
     this._noTasksComponent = new NoTasksComponent();
     this._sortComponent = new SortComponent();
     this._tasksComponent = new TasksComponent();
+    this._loadingComponent = new LoadingComponent();
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
 
     this._onDataChange = this._onDataChange.bind(this);
@@ -56,10 +59,18 @@ export default class BoardController {
     this._creatingTask.render(EmptyTask, TaskControllerMode.ADDING);
   }
 
+  loading() {
+    render(this._container.getElement(), this._loadingComponent);
+  }
+
   render() {
     const container = this._container.getElement();
     const tasks = this._tasksModel.getTasks();
     const isAllTasksArchived = tasks.every((task) => task.isArchive);
+
+    if (this._loadingComponent.isElement()) {
+      remove(this._loadingComponent);
+    }
 
     if (isAllTasksArchived || tasks.length === 0) {
       render(container, this._noTasksComponent);
@@ -140,11 +151,15 @@ export default class BoardController {
       this._tasksModel.removeTask(oldData.id);
       this._updateTasks(this._showingTasksCount);
     } else {
-      const isSuccess = this._tasksModel.updateTask(oldData.id, newData);
+      this._api.updateTask(oldData.id, newData)
+        .then((taskModel) => {
+          const isSuccess = this._tasksModel.updateTask(oldData.id, taskModel);
 
-      if (isSuccess) {
-        taskController.render(newData, TaskControllerMode.DEFAULT);
-      }
+          if (isSuccess) {
+            taskController.render(taskModel, TaskControllerMode.DEFAULT);
+            this._updateTasks(this._showingTasksCount);
+          }
+        });
     }
   }
 
