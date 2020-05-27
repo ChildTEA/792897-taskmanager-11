@@ -56,6 +56,8 @@ siteMenuComponent.setOnChange((menuItem) => {
   }
 });
 
+boardController.loading();
+
 api.getTasks()
   .then((tasks) => {
     tasksModel.setTasks(tasks);

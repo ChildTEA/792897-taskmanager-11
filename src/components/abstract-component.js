@@ -11,6 +11,10 @@ export default class AbstractComponent {
     this._element = null;
   }
 
+  isElement() {
+    return this._element;
+  }
+
   getTemplate() {
     throw new Error(`Abstract method not implemented: getTemplate`);
   }

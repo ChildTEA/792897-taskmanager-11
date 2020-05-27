@@ -1,4 +1,5 @@
 import LoadMoreButtonComponent from '../components/load-more-button.js';
+import LoadingComponent from '../components/loading.js';
 import TaskController, {Mode as TaskControllerMode, EmptyTask} from './task.js';
 import TasksComponent from '../components/tasks.js';
 import NoTasksComponent from '../components/no-tasks.js';
@@ -33,6 +34,7 @@ export default class BoardController {
     this._noTasksComponent = new NoTasksComponent();
     this._sortComponent = new SortComponent();
     this._tasksComponent = new TasksComponent();
+    this._loadingComponent = new LoadingComponent();
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
 
     this._onDataChange = this._onDataChange.bind(this);
@@ -56,10 +58,18 @@ export default class BoardController {
     this._creatingTask.render(EmptyTask, TaskControllerMode.ADDING);
   }
 
+  loading() {
+    render(this._container.getElement(), this._loadingComponent);
+  }
+
   render() {
     const container = this._container.getElement();
     const tasks = this._tasksModel.getTasks();
     const isAllTasksArchived = tasks.every((task) => task.isArchive);
+
+    if (this._loadingComponent.isElement()) {
+      remove(this._loadingComponent);
+    }
 
     if (isAllTasksArchived || tasks.length === 0) {
       render(container, this._noTasksComponent);
