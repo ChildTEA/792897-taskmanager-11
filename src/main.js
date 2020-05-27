@@ -9,24 +9,26 @@ import TasksModel from './models/tasks.js';
 import {render} from './utils/render-component.js';
 
 const AUTHORIZATION = `Basic 66KhlulhuFtahgn9`;
+const END_POINT = `https://11.ecmascript.pages.academy/task-manager`;
 
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
 
-const api = new API(AUTHORIZATION);
 const dateTo = new Date();
 const dateFrom = (() => {
   const d = new Date(dateTo);
   d.setDate(d.getDate() - 7);
   return d;
 })();
+
+const api = new API(END_POINT, AUTHORIZATION);
 const tasksModel = new TasksModel();
 
 const filterController = new FilterController(siteMainElement, tasksModel);
 filterController.render();
 
 const boardComponent = new BoardComponent();
-const boardController = new BoardController(boardComponent, tasksModel);
+const boardController = new BoardController(boardComponent, tasksModel, api);
 const siteMenuComponent = new SiteMenuComponent();
 const statisticsComponent = new StatisticsComponent({tasks: tasksModel, dateFrom, dateTo});
 
